@@ -111,13 +111,13 @@
         <tr v-for="(alumno, i) in listaNotas">
           <th scope="row">{{i + 1}}</th>
           <td>{{alumno.nombre}} {{alumno.apellido}}</td>
-          <td :class="{notaRoja: notaRoja, notaVerde: notaVerde, notaAmarilla: notaAmarilla}">{{alumno.nota}}</td>
+          <td :class="{notaRoja: alumno.nota <=3, notaVerde: alumno.nota >= 4 && registro.nota <= 6 , notaAmarilla: alumno.nota>=6}">{{alumno.nota}}</td>
         </tr>
 
         <tr>
           <td>Promedio total:</td>
           <td></td>
-          <td :class="{notaRoja: notaRoja, notaVerde: notaVerde, notaAmarilla: notaAmarilla}" > {{  promedio }}</td>
+          <td :class="{notaRoja: alumno.nota <=3, notaVerde: alumno.nota >= 4 && registro.nota <= 6 , notaAmarilla: alumno.nota>=6}" > {{ promedio }}</td>
         </tr>
       </tbody>
     </table>
