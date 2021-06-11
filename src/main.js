@@ -6,7 +6,6 @@ import "popper.js"
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./form"
-import "./axios"
 
 import { router } from "./router"
 

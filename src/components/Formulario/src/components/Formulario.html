@@ -1,14 +1,15 @@
 
 <section class="src-components-formulario">
   <div class="jumbotron">
-    <h2> Formulario tp4</h2>
+
+    <h2> Formulario Notas</h2>
 
     <hr>
     <br>
 
-    <vue-form :state="formState" @submit.prevent="postUsuario()">
+    <vue-form :state="formState" @submit.prevent="enviar()">
 
-      <!--nombre-->
+      <!--NOMBRE-->
       <validate tag="div"> 
         <label for="nombre">Nombre</label>
           <input 
@@ -19,81 +20,104 @@
             autocomplete="off"
             v-model.trim = "formData.nombre"
             required
-            minlength="5"  
-            :maxlength="nombreLengthMax"
+            :minlength="stringLengthMin"  
+            :maxlength="stringLengthMax"
+            espacios-vacios
           >    
           <field-messages name="nombre" show="$dirty">
-            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-            <div slot="minlength" class="alert alert-danger mt-1">Requiere 5 caracteres</div>
-            <div v-if="formData.nombre.length == nombreLengthMax" class="alert alert-warning mt-1">Maximo {{nombreLengthMax}} caracteres</div>
+            <div slot="required" class="alert alert-danger mt-1">
+              Campo requerido</div>
+            <div slot="espacios-vacios" class="alert alert-danger mt-1">
+              No se permiten espacios intermedios en este campo
+            </div>
+            <div slot="minlength" class="alert alert-danger mt-1">
+              Requiere al menos {{ stringLengthMin }} caracteres</div>
+            <div v-if="formData.nombre.length == stringLengthMax" class="alert alert-warning mt-1">
+              Maximo {{nombreLengthMax}} caracteres</div>
           </field-messages>
       </validate>
       <br>
 
-      <!--EDAD-->
+       <!--APELLIDO-->
+       <validate tag="div"> 
+        <label for="apellido">Apellido</label>
+          <input 
+            type="text"
+            id="apellido"
+            name="apellido"
+            class="form-control"
+            autocomplete="off"
+            v-model.trim = "formData.apellido"
+            required
+            :minlength="stringLengthMin"  
+            :maxlength="stringLengthMax"
+            espacios-vacios
+          >    
+          <field-messages name="apellido" show="$dirty">
+            <div slot="required" class="alert alert-danger mt-1">
+              Campo requerido</div>
+            <div slot="espacios-vacios" class="alert alert-danger mt-1">
+              No se permiten espacios intermedios en este campo
+            </div>
+            <div slot="minlength" class="alert alert-danger mt-1">
+              Requiere al menos {{ stringLengthMin }} caracteres</div>
+            <div v-if="formData.apellido.length == stringLengthMax" class="alert alert-warning mt-1">
+              Maximo {{nombreLengthMax}} caracteres</div>
+          </field-messages>
+      </validate>
+      <br>
+
+      <!--NOTA-->
       <validate tag="div"> 
-        <label for="edad">Edad</label>
+        <label for="nota">Nota</label>
           <input 
             type="number"
-            id="edad"
-            name="edad"
+            id="nota"
+            name="nota"
             class="form-control"
             autocomplete="off"
-            v-model.number = "formData.edad" 
+            v-model.number = "formData.nota" 
             required   
-            min="18"
-            max="120"          
+            min="0"
+            max="10"          
           >        
-          <field-messages name="edad" show="$dirty">
+          <field-messages name="nota" show="$dirty">
             <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-            <div slot="min" class="alert alert-danger mt-1">Edad minima 18</div>
-            <div slot="max" class="alert alert-danger mt-1">Edad maxima 120</div>
+            <div slot="min" class="alert alert-danger mt-1">La nota debe ser mayor o igual a 0</div>
+            <div slot="max" class="alert alert-danger mt-1">La nota debe ser menor o igual a 10</div>
           </field-messages>
       </validate>
-      <br>
 
-      <!--EMAIL-->
-      <validate tag="div"> 
-        <label for="email">Email</label>
-          <input 
-            type="email"
-            id="email"
-            name="email"
-            class="form-control"
-            autocomplete="off"
-            v-model.trim = "formData.email"
-            required  
-          >    
-          <field-messages name="email" show="$dirty">
-            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-            <div slot="email" class="alert alert-danger mt-1">Email no valido</div>
-          </field-messages>
-      </validate>
       <br>
+      <hr>
 
       <button class="btn btn-succeds my-3" :disabled="formState.$invalid" type="submit"> Enviar </button>
     </vue-form>
 
     <hr>
-    <div v-if="listaUsuarios.length <= 0"> No hay usuarios aun </div>
+    <div v-if="listaNotas.length <= 0"> No se encontraron notas </div>
 
-    <table v-if="listaUsuarios.length > 0" class="table container-sm mt-5">
+    <table v-if="listaNotas.length > 0" class="table container-sm mt-5">
       <thead class="thead-dark">
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Edad</th>
-          <th scope="col">Email</th>         
+          <th scope="col">Nombre y apellido</th>
+          <th scope="col">Nota</th>         
         </tr>
       </thead>
     
       <tbody>
         
-        <tr v-for="(usuario, i) in listaUsuarios">
+        <tr v-for="(alumno, i) in listaNotas">
           <th scope="row">{{i + 1}}</th>
-          <td>{{usuario.nombre}}</td>
-          <td>{{usuario.edad}}</td>
-          <td>{{usuario.email}}</td>
+          <td>{{alumno.nombre}} {{alumno.apellido}}</td>
+          <td :class="{notaRoja: notaRoja, notaVerde: notaVerde, notaAmarilla: notaAmarilla}">{{alumno.nota}}</td>
+        </tr>
+
+        <tr>
+          <td>Promedio total:</td>
+          <td></td>
+          <td :class="{notaRoja: notaRoja, notaVerde: notaVerde, notaAmarilla: notaAmarilla}" > {{  promedio }}</td>
         </tr>
       </tbody>
     </table>

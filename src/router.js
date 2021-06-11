@@ -2,7 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 
 import Formulario from "./components/Formulario/index.vue"
-import Http from "./components/Http.vue"
+import Choice from "./components/Choice.vue"
 
 
 Vue.use(VueRouter)
@@ -12,6 +12,6 @@ export const router = new VueRouter({
     routes: [
         {  path: "/", redirect:"/formulario"   },
         {  path: "/formulario", component: Formulario   },
-        {  path: "/http", component: Http   }
+        {  path: "/choice", component: Choice   }
     ]
 })

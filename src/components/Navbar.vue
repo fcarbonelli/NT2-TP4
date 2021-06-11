@@ -19,8 +19,8 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="http">
-              <a class="nav-link" href="#">Http</a>
+            <router-link to="choice">
+              <a class="nav-link" href="#">Choice</a>
             </router-link>
           </li>        
           

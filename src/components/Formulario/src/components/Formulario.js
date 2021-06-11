@@ -7,13 +7,24 @@ export default {
     return {
       formData : this.getInicialData(),
       formState : {},
-      nombreLengthMax: 15,
-      listaUsuarios: [],
-      url: "https://60aec1525b8c300017deb313.mockapi.io/nombre/"
+      stringLengthMin: 3,
+      stringLengthMax: 15,
+      listaNotas: [],
+      notaVerde: false,
+      notaRoja: false,
+      notaAmarilla: false,
+
     }
   },
   computed: {
-
+    promedio: function(){
+      var total = 0;
+      for(var i = 0; i < this.listaNotas.nota.length; i++) {
+          total += this.listaNotas.nota[i];
+      }
+      var avg = total / this.listaNotas.nota;
+      return avg
+    }
   },
   mounted () {
 
@@ -22,37 +33,34 @@ export default {
     getInicialData(){
       return {
         nombre: "",
-        edad:"",
-        email:""
+        apellido: "",
+        nota:""       
       }
     },
     enviar(){
-      this.listaUsuarios.push(this.formData)
+      this.listaNotas.push(this.formData)
+      this.setColor(this.formData.nota)
       this.formData = this.getInicialData()
       this.formState._reset()    
-    },
-    async getUsuarios(){
-      try{
-        let respuesta = await this.axios(this.url)
-        console.log("axios get usuarios", respuesta.data)
-        this.listaUsuarios= respuesta.data
+    },  
+    setColor(nota)
+    {
+      if (nota >= 0 && nota <=3) {
+        this.notaRoja = true;
+        this.notaVerde = false;
+        this.notaAmarilla = false;
       }
-      catch(error){
-        console.error(error)
+      if(nota >= 4 && nota <=6) {
+        this.notaRoja = false;
+        this.notaVerde = false;
+        this.notaAmarilla = true;
+      }if(nota >= 7 && nota <=10) {
+        this.notaRoja = false;
+        this.notaVerde = true;
+        this.notaAmarilla = false;
       }
-    },
-    async postUsuario(){
-      try{
-        let respuesta = await this.axios.post(this.url, this.formData, {"content-type": "application/json"})
-        console.log("axios post usuarios", respuesta.data)
-        this.listaUsuarios.push(respuesta.data)
-      }
-      catch(error){
-        console.error(error)
-      }
-      this.formData = this.getInicialData()
-      this.formState._reset()   
     }
+    
   }
 }
 

@@ -2,6 +2,27 @@
 
 }
 .jumbotron{
-    background-color: rgb(250, 175, 250);
+    background-color: rgb(206, 158, 206);
     color: rgb(0, 0, 0);
   }
+  hr{
+    background-color: aliceblue;
+  }
+  button{
+    background-color: cornflowerblue;
+    color:rgb(8, 4, 4);
+  }
+  button:hover{
+    background-color: darkblue;
+  }
+  .notaRoja{
+    color:red;
+  }
+  .notaVerde{
+    color:green;
+  }
+  .notaAmarilla{
+    color:yellow;
+  }
+
+ 
