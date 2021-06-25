@@ -24,6 +24,7 @@ export default {
         nombre: "",
         edad:"",
         email:""
+        
       }
     },   
     async getUsuarios(){
