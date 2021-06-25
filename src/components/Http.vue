@@ -4,8 +4,7 @@
       <hr>
       <h4>Http</h4>
       <hr>
-      <button class="btn btn-success my-3" @click="GetPost()">Pedir XMLHttpRequest</button>
-      <button class="btn btn-warning my-3" @click="getPostFetch()">Pedir Fetch</button>
+      
       <button class="btn btn-danger my-3" @click="getPostAxios()">Pedir Axios</button>
 
       <table v-if="listaUsuarios.length > 0" class="table container-sm mt-5">
@@ -38,45 +37,17 @@ export default {
   name: 'Http',
   data(){
     return{
-      url:"https://60aec1525b8c300017deb313.mockapi.io/nombre",
-      listaUsuarios: []
+     
+    }
+  },
+  computed: {
+    listaUsuarios() {
+      return this.$store.state.listaUsuarios;
     }
   },
   methods: {
-    GetPost() {
-      let xhr = new XMLHttpRequest
-
-      xhr.open('get', this.url)
-      xhr.addEventListener('load', () => {
-        if(xhr.status == 200) {
-          let response = JSON.parse(xhr.response)
-          this.listaUsuarios = response
-        }
-        else {
-          console.error(`Error en GET`)
-        }
-      })
-      xhr.addEventListener('error', e => {
-          console.error(`Error XMLHttpRequest ->`, e)
-      })
-
-        xhr.send()
-    },
-    getPostFetch() {      
-      fetch(this.url)
-          .then(data => data.json())
-          .then(res => {
-            this.listaUsuarios = res
-          })
-          .catch(error => console.error(error))
-    },
     getPostAxios(){
-      this.axios(this.url)
-      .then(respuesta => {
-        console.log("axios", respuesta.data)
-        this.listaUsuarios = respuesta.data
-      })
-      .catch(error => console.error(error))
+      this.$store.dispatch("getUsersAxios")
     }
   }
   /*props: {
